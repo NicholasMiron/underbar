@@ -108,7 +108,37 @@
   };
 
   // Produce a duplicate-free version of the array.
+  // TODO add in quicker function for arrays that are known to be sorted
   _.uniq = function(array, isSorted, iterator) {
+    var singles = [];
+    //If length is one or zero return array
+    if( array.length <= 1) return array;  
+    //If there is no iterator return all unique values
+    //Does not matter if array is sorted or not
+    if(typeof iterator === 'undefined') {
+      _.each(array, function(value) {
+        if(!singles.includes(value)) {
+          singles.push(value);
+        }
+      });
+    }
+    //If there is an iterator and a sorted array 
+    //Return values from array with indexes of the unique values of iterated array
+    else if(typeof iterator === 'function') {
+      //Create iteratted array
+      var tempArr = [];
+      var iterattedArr = array.slice();
+      _.each(iterattedArr, function(value, index) {
+        iterattedArr[index] = iterator(value);
+      });
+      _.each(iterattedArr, function(value) {
+        if(!tempArr.includes(value)) {
+          tempArr.push(value);
+          singles.push(array[_.indexOf(iterattedArr,value)]);
+        }
+      });
+    }
+    return singles;
   };
 
 
