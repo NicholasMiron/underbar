@@ -51,12 +51,12 @@
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
     if(Array.isArray(collection)) {
-      for(var collectionIndex = 0; collectionIndex < collection.length; collectionIndex++) {
-        iterator(collection[collectionIndex], collectionIndex, collection);
+      for(var key = 0; key < collection.length; key++) {
+        iterator(collection[key], key, collection);
       }
     } else {
-      for(var collectionObj in collection) {
-        iterator(collection[collectionObj], collectionObj, collection);
+      for(var key in collection) {
+        iterator(collection[key], key, collection);
       }
     }
   };
@@ -193,13 +193,13 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    var accumValue = arguments.length < 3
-    _.each(collection, function(value, index, collection) {
+    var accumValue = typeof accumulator === 'undefined';
+    _.each(collection, function(value) {
       if(accumValue) {
         accumValue = false;
         accumulator = value;
       } else {
-        accumulator = iterator(accumulator, value, index, collection);
+        accumulator = iterator(accumulator, value);
       }
     });
     return accumulator;
