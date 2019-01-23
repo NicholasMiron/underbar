@@ -364,6 +364,20 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    //Copy the given array
+    var result = array.slice();
+    //Shuffle using Fisher-Yates Shuffle
+    for(var leftToShuffle = result.length - 1; leftToShuffle >= 0; leftToShuffle--) {
+      //Get random index to move to end of array
+      var shuffleIndex = Math.floor(Math.random() * leftToShuffle);
+      //store last unshuffled value temporarily
+      var endValue = result[leftToShuffle];
+      //set last unsuffled values to random unshuffled value
+      result[leftToShuffle] = result[shuffleIndex];
+      //set the random unshuffled value equal to last unshuffled value
+      result[shuffleIndex] = endValue;
+    }
+    return result;
   };
 
 
